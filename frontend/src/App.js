@@ -8,6 +8,7 @@ import { AppContext } from "./lib/contextLib";
 import Routes from "./Routes";
 import { useNavigate } from "react-router-dom";
 import { onError } from "./lib/errorLib";
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 
 function App() {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
@@ -66,9 +67,13 @@ function App() {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
-          <Routes />
-        </AppContext.Provider>
+        <ErrorBoundary>
+          <AppContext.Provider
+            value={{ isAuthenticated, userHasAuthenticated }}
+          >
+            <Routes />
+          </AppContext.Provider>
+        </ErrorBoundary>
       </div>
     )
   );
